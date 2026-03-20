@@ -2,7 +2,7 @@ name: trie_dart
 description: >-
   A generic Trie (prefix tree) for Dart with synonym-based path chaining
   and sequential keyword search.
-version: 0.1.1
+version: 0.1.2
 repository: https://github.com/goeo1066/trie_dart
 topics:
   - trie

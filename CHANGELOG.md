@@ -1,3 +1,8 @@
+## 0.1.2
+
+- Fix LICENSE file format for pub.dev recognition (Apache 2.0)
+- Sync README dependency version
+
 ## 0.1.1
 
 - Add `TrieResult<T>` class with `matched` and `remaining` fields
