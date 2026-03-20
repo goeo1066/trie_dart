@@ -14,7 +14,10 @@
 ///   }),
 /// );
 ///
-/// trie.search("abcabcd"); // [ABC, ABCD]
+/// var result = trie.search("abcabcd");
+/// print(result.data);      // [ABC, ABCD]
+/// print(result.matched);   // abcabcd
+/// print(result.remaining); // (empty)
 /// ```
 class Trie<T> {
   final _TrieRoot<T> _root;
@@ -29,9 +32,48 @@ class Trie<T> {
 
   /// Searches the trie by traversing [keyword] character-by-character.
   ///
-  /// Returns a [List<T>] of all data found at matching nodes along the path.
-  /// If no matches are found, returns an empty list.
-  List<T> search(String keyword) => _root.search(keyword);
+  /// Returns a [TrieResult] containing all matched data, the matched
+  /// portion of the keyword, and the remaining unmatched portion.
+  TrieResult<T> search(String keyword) => _root.search(keyword);
+}
+
+/// The result of a [Trie.search] operation.
+///
+/// Contains the matched data, the portion of the input that was matched,
+/// and the remaining unmatched portion.
+///
+/// ```dart
+/// var result = trie.search("abcxyz");
+/// print(result.data);      // [ABC]
+/// print(result.matched);   // abc
+/// print(result.remaining); // xyz
+/// ```
+class TrieResult<T> {
+  /// The list of data collected from matched nodes along the search path.
+  final List<T> data;
+
+  /// The portion of the input keyword that was successfully matched.
+  final String matched;
+
+  /// The remaining portion of the input keyword that was not matched.
+  final String remaining;
+
+  /// Creates a [TrieResult] with [data], [matched], and [remaining].
+  const TrieResult({
+    required this.data,
+    required this.matched,
+    required this.remaining,
+  });
+
+  /// Whether any data was found during the search.
+  bool get hasData => data.isNotEmpty;
+
+  /// Whether the entire input keyword was consumed by the search.
+  bool get isFullMatch => remaining.isEmpty;
+
+  @override
+  String toString() =>
+      'TrieResult(data: $data, matched: "$matched", remaining: "$remaining")';
 }
 
 /// Represents a path entry in a [Trie] with optional data and synonyms.
@@ -72,14 +114,16 @@ class TriePath<T> {
 class _TrieRoot<T> {
   final root = _TrieNode<T>.ofRoot();
 
-  List<T> search(String keyword) {
+  TrieResult<T> search(String keyword) {
     _TrieNode<T>? node = root;
     List<T> dataFound = <T>[];
+    int matchedLength = 0;
 
     for (var rune in keyword.runes) {
       var key = String.fromCharCode(rune);
       node = node!.get(key);
       if (node != null) {
+        matchedLength += key.length;
         if (node.data != null) {
           dataFound.add(node.data!);
         }
@@ -88,7 +132,11 @@ class _TrieRoot<T> {
       }
     }
 
-    return dataFound;
+    return TrieResult(
+      data: dataFound,
+      matched: keyword.substring(0, matchedLength),
+      remaining: keyword.substring(matchedLength),
+    );
   }
 
   void insertPath(List<TriePath<T>> list) {
