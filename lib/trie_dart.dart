@@ -14,8 +14,11 @@
 ///   }),
 /// );
 ///
-/// print(trie.search("abcabcd")); // [ABC, ABCD]
+/// var result = trie.search("abcabcd");
+/// print(result.data);      // [ABC, ABCD]
+/// print(result.matched);   // abcabcd
+/// print(result.remaining); // (empty)
 /// ```
 library;
 
-export 'src/trie.dart' show Trie, TriePath;
+export 'src/trie.dart' show Trie, TriePath, TrieResult;

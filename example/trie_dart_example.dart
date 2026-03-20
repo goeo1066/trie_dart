@@ -1,9 +1,6 @@
 import 'package:trie_dart/trie_dart.dart';
 
 void main() {
-  // Build a trie with two chained paths.
-  // The first path matches "abc" (with synonym "ABC"),
-  // and the second path matches "abcd" (with synonym "ABCD").
   var trie = Trie<String>.withInitialData(
     List.of({
       TriePath<String>.withData("ABC").addSynonym("abc"),
@@ -11,25 +8,23 @@ void main() {
     }),
   );
 
-  // Searching "abcabcd" traverses both paths sequentially:
-  // - "abc" matches the first path → collects "ABC"
-  // - "abcd" matches the second path → collects "ABCD"
-  var results = trie.search("abcabcd");
-  print(results); // [ABC, ABCD]
+  // Full match — entire input is consumed
+  var result = trie.search("abcabcd");
+  print(result.data);        // [ABC, ABCD]
+  print(result.matched);     // abcabcd
+  print(result.remaining);   // (empty)
+  print(result.isFullMatch); // true
 
-  // Searching a partial match
-  var partial = trie.search("abc");
-  print(partial); // [ABC]
+  // Partial match — "xyz" is not in the trie
+  var partial = trie.search("abcxyz");
+  print(partial.data);        // [ABC]
+  print(partial.matched);     // abc
+  print(partial.remaining);   // xyz
+  print(partial.isFullMatch); // false
 
-  // Using synonyms — multiple strings can map to the same data
-  var trieWithSynonyms = Trie<String>.withInitialData(
-    List.of({
-      TriePath<String>.withData("greeting")
-          .addSynonym("hi")
-          .addSynonym("hello"),
-    }),
-  );
-
-  print(trieWithSynonyms.search("hi")); // [greeting]
-  print(trieWithSynonyms.search("hello")); // [greeting]
+  // No match
+  var noMatch = trie.search("zzz");
+  print(noMatch.data);      // []
+  print(noMatch.hasData);   // false
+  print(noMatch.remaining); // zzz
 }
