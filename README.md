@@ -1,6 +1,6 @@
-# trie_dart
+# trie_dart — Segmented Trie Core
 
-A generic Trie (prefix tree) data structure for Dart that supports synonym-based path chaining and sequential keyword search.
+A generic segmented Trie (prefix tree) for Dart that supports synonym-based path chaining and sequential keyword search.
 
 ## Features
 
