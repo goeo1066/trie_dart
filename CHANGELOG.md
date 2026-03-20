@@ -1,3 +1,7 @@
+## 0.1.3
+
+- Fix null check operator warning on nullable type parameter (pana static analysis)
+
 ## 0.1.2
 
 - Fix LICENSE file format for pub.dev recognition (Apache 2.0)

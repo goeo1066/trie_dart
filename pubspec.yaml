@@ -2,7 +2,7 @@ name: trie_dart
 description: >-
   Segmented Trie Core — A generic segmented Trie (prefix tree) for Dart
   with synonym-based path chaining and sequential keyword search.
-version: 0.1.2
+version: 0.1.3
 repository: https://github.com/goeo1066/trie_dart
 topics:
   - trie
