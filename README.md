@@ -15,7 +15,7 @@ Add `trie_dart` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  trie_dart: ^0.1.0
+  trie_dart: ^0.1.1
 ```
 
 Then run:
