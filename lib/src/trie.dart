@@ -124,8 +124,9 @@ class _TrieRoot<T> {
       node = node!.get(key);
       if (node != null) {
         matchedLength += key.length;
-        if (node.data != null) {
-          dataFound.add(node.data!);
+        var data = node.data;
+        if (data != null) {
+          dataFound.add(data);
         }
       } else {
         break;
